@@ -1,8 +1,12 @@
-name: Build and Push GHCR Image
+name: Build and Push GHCR
 
 on:
   push:
     branches: [ "main" ]
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build:
@@ -12,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
+      - name: Set up Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Login to GHCR
@@ -28,4 +32,4 @@ jobs:
           context: .
           platforms: linux/arm64
           push: true
-          tags: ghcr.io/zdearwei/nginx-arm64:1.29.8
+          tags: ghcr.io/zdearwei/nginx-arm64:latest

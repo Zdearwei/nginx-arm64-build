@@ -19,7 +19,7 @@ WORKDIR /build/nginx-1.29.8
 
 # 编译 vts 动态模块
 RUN ./configure --with-compat \
-    --add-dynamic-module=../nginx-module-vts-master \
+    --add-dynamic-module=../nginx-module-vts-master/nginx-module-vts-master \
     && make modules
 
 

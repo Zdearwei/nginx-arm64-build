@@ -1,5 +1,5 @@
-# ===== ±àÒë½×¶Î =====
-FROM --platform=linux/arm64 nginx:1.29.8-alpine AS builder
+# ===== ç¼–è¯‘é˜¶æ®µ =====
+FROM nginx:1.29.8-alpine AS builder
 
 RUN apk add --no-cache \
     build-base \
@@ -17,20 +17,20 @@ RUN tar zxvf nginx-1.29.8.tar.gz
 
 WORKDIR /build/nginx-1.29.8
 
-# ±àÒë vts ¶¯Ì¬Ä£¿é
+# ç¼–è¯‘ vts åŠ¨æ€æ¨¡å—
 RUN ./configure --with-compat \
     --add-dynamic-module=../nginx-module-vts-master \
     && make modules
 
 
-# ===== ÔËĞĞ½×¶Î =====
+# ===== è¿è¡Œé˜¶æ®µ =====
 FROM nginx:1.29.8
 
-# ¿½±´Ä£¿é
+# æ‹·è´æ¨¡å—
 COPY --from=builder /build/nginx-1.29.8/objs/ngx_http_vhost_traffic_status_module.so /etc/nginx/modules/
 
-# basic auth ÎÄ¼ş
+# basic auth æ–‡ä»¶
 COPY htpasswd /etc/nginx/.htpasswd
 
-# vtsÎÄ¼ş
+# vtsæ–‡ä»¶
 COPY vts.conf /etc/nginx/modules-enabled/vts.conf
